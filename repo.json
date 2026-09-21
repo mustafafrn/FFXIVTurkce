@@ -1,0 +1,22 @@
+[
+  {
+    "Author": "Mustafa",
+    "Name": "FFXIV Türkçe",
+    "InternalName": "FFXIVTurkce",
+    "AssemblyVersion": "0.1.0.0",
+    "Description": "Diyalogları, görev günlüğünü, menüleri ve arayüzdeki yazıları oyunun kendi kutusunun içinde Türkçe gösterir. API anahtarı gerekmez; çeviriler kalıcı önbelleğe alınır.",
+    "Punchline": "FFXIV'i oyunun kendi arayüzünde Türkçe oyna.",
+    "RepoUrl": "https://github.com/KULLANICI_ADI/FFXIVTurkce",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 15,
+    "Tags": ["translation", "turkish", "türkçe", "dialogue", "localization"],
+    "IconUrl": "",
+    "DownloadLinkInstall": "https://github.com/KULLANICI_ADI/FFXIVTurkce/releases/latest/download/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/KULLANICI_ADI/FFXIVTurkce/releases/latest/download/latest.zip",
+    "DownloadLinkTesting": "https://github.com/KULLANICI_ADI/FFXIVTurkce/releases/latest/download/latest.zip",
+    "LastUpdate": 0,
+    "DownloadCount": 0,
+    "IsHide": false,
+    "IsTestingExclusive": false
+  }
+]
