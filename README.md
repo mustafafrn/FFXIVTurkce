@@ -36,7 +36,7 @@ Oyunu XIVLauncher ile başlatın. İlk başlatmada Dalamud otomatik kurulur. Oyu
 2. **Custom Plugin Repositories** kısmına şu adresi yapıştırın ve **+** ile ekleyin:
 
    ```
-   https://raw.githubusercontent.com/KULLANICI_ADI/FFXIVTurkce/main/repo.json
+   https://raw.githubusercontent.com/mustafafrn/FFXIVTurkce/main/repo.json
    ```
 
 3. **Save and Close**
@@ -91,7 +91,7 @@ Her büyük FFXIV yamasında Dalamud birkaç gün çalışmaz; güncellemeyi bek
 ## Kaynaktan derleme
 
 ```bash
-git clone https://github.com/KULLANICI_ADI/FFXIVTurkce.git
+git clone https://github.com/mustafafrn/FFXIVTurkce.git
 cd FFXIVTurkce/FFXIVTurkce
 dotnet build -c Release
 ```

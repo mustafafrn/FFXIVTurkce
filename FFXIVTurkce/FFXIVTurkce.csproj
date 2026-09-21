@@ -6,7 +6,7 @@
     <Name>FFXIV Türkçe</Name>
     <Punchline>NPC diyaloglarını anında Türkçeye çevirir (overlay).</Punchline>
     <Description>Talk / BattleTalk diyaloglarını Gemini veya Claude ile Türkçeye çevirip oyunun diyalog kutusunun üstünde overlay olarak gösterir. Çeviriler önbelleğe alınır.</Description>
-    <RepoUrl>https://github.com/KULLANICI_ADI/FFXIVTurkce</RepoUrl>
+    <RepoUrl>https://github.com/mustafafrn/FFXIVTurkce</RepoUrl>
     <Tags>translation;turkish;türkçe;dialogue</Tags>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
