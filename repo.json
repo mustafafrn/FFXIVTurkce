@@ -3,7 +3,7 @@
     "Author": "Mustafa",
     "Name": "FFXIV Türkçe",
     "InternalName": "FFXIVTurkce",
-    "AssemblyVersion": "0.1.0.0",
+    "AssemblyVersion": "0.1.1.0",
     "Description": "Diyalogları, görev günlüğünü, menüleri ve arayüzdeki yazıları oyunun kendi kutusunun içinde Türkçe gösterir. API anahtarı gerekmez; çeviriler kalıcı önbelleğe alınır.",
     "Punchline": "FFXIV'i oyunun kendi arayüzünde Türkçe oyna.",
     "RepoUrl": "https://github.com/mustafafrn/FFXIVTurkce",

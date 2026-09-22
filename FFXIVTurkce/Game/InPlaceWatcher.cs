@@ -312,10 +312,7 @@ public sealed unsafe class InPlaceWatcher : IDisposable
             var currentAlpha = node->Color.A;
             if (!hidden.TryGetValue(ptr, out var h))
             {
-                hidden[ptr] = (name, currentAlpha);
-                h = hidden[ptr];
-                if (!hiddenByAddon.TryGetValue(name, out var set)) hiddenByAddon[name] = set = new HashSet<nint>();
-                set.Add(ptr);
+                h = Claim(ptr, name, currentAlpha);
 
                 if (cfg.DebugWindow)
                 {
@@ -330,13 +327,17 @@ public sealed unsafe class InPlaceWatcher : IDisposable
                 }
             }
 
+            else if (h.Addon != name)
+            {
+                // Aynı düğüm başka bir pencerenin ağacında da görünüyor (iç içe pencereler): sahipliği devral.
+                h = Claim(ptr, name, h.Alpha);
+            }
             else if (currentAlpha != 0)
             {
                 // Geçen kare sıfırlamıştık, oyun geri yazmış (solma animasyonu ya da her kare SetAlpha).
                 // Değeri kendi solmamız için sakla; art arda iki kez olursa bu pencerede alfa gizleme
                 // tutmuyor demektir → görünürlük bayrağıyla gizle.
-                hidden[ptr] = (name, currentAlpha);
-                h = hidden[ptr];
+                h = Claim(ptr, name, currentAlpha);
                 rewrites[ptr] = rewrites.TryGetValue(ptr, out var n) ? n + 1 : 1;
                 if (!useFlag && rewrites[ptr] >= 2)
                 {
@@ -433,9 +434,16 @@ public sealed unsafe class InPlaceWatcher : IDisposable
         {
             foreach (var ptr in stale)
             {
+                if (!hidden.TryGetValue(ptr, out var h) || h.Addon != name)
+                {
+                    // Sahipliği başka pencere aldı ya da kayıt zaten silinmiş: sadece bu kümeden düş.
+                    mine!.Remove(ptr);
+                    continue;
+                }
+
                 var node = (AtkResNode*)ptr;
                 if (UiTextScanner.ContainsNode(addon, node))
-                    RestoreNode(node, ptr, hidden[ptr].Alpha);
+                    RestoreNode(node, ptr, h.Alpha);
                 else
                     hiddenByFlag.Remove(ptr);
                 Forget(ptr, name);
@@ -460,6 +468,20 @@ public sealed unsafe class InPlaceWatcher : IDisposable
         if (!hidden.TryGetValue(ptr, out var h)) return;
         RestoreNode((AtkResNode*)node, ptr, h.Alpha);
         Forget(ptr, h.Addon);
+    }
+
+    /// <summary>Düğümü bu pencerenin gizlediği kayıtlara yazar; başka pencereye kayıtlıysa oradan taşır.</summary>
+    private (string Addon, byte Alpha) Claim(nint ptr, string name, byte alpha)
+    {
+        if (hidden.TryGetValue(ptr, out var old) && old.Addon != name
+            && hiddenByAddon.TryGetValue(old.Addon, out var oldSet))
+            oldSet.Remove(ptr);
+
+        var entry = (name, alpha);
+        hidden[ptr] = entry;
+        if (!hiddenByAddon.TryGetValue(name, out var set)) hiddenByAddon[name] = set = new HashSet<nint>();
+        set.Add(ptr);
+        return entry;
     }
 
     private void Forget(nint ptr, string addon)
@@ -487,9 +509,15 @@ public sealed unsafe class InPlaceWatcher : IDisposable
         var list = new List<nint>(set);
         foreach (var ptr in list)
         {
+            if (!hidden.TryGetValue(ptr, out var h) || h.Addon != name)
+            {
+                set.Remove(ptr);
+                continue;
+            }
+
             var node = (AtkResNode*)ptr;
             if (UiTextScanner.ContainsNode(addon, node))
-                RestoreNode(node, ptr, hidden[ptr].Alpha);
+                RestoreNode(node, ptr, h.Alpha);
             else
                 hiddenByFlag.Remove(ptr);
             Forget(ptr, name);
